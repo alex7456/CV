@@ -18,15 +18,13 @@ def run_tracker(video_path, method_id):
     time.sleep(0.3)
 
     if method_id == 1:
-        tracker = getattr(cv2, "legacy_TrackerCSRT_create", cv2.TrackerCSRT_create)()
+        tracker = cv2.legacy.TrackerCSRT_create()
         name = "CSRT"
     elif method_id == 2:
-        tracker = getattr(cv2, "legacy_TrackerKCF_create", cv2.TrackerKCF_create)()
+        tracker = cv2.legacy.TrackerKCF_create()
         name = "KCF"
     elif method_id == 3:
-        tracker = getattr(cv2, "legacy_TrackerMOSSE_create", None)
-        if tracker is None and hasattr(cv2, "legacy"):
-            tracker = cv2.legacy.TrackerMOSSE_create()
+        tracker = cv2.legacy.TrackerMOSSE_create()
         name = "MOSSE"
     else:
         raise ValueError("Неверный метод (1-CSRT, 2-KCF, 3-MOSSE)")
@@ -77,6 +75,8 @@ def run_tracker(video_path, method_id):
     print(f"FPS видео: {fps_video:.2f}")
 
 # Пример запусков
-run_tracker("video/bear.mp4", 1)
-run_tracker("video/camels.mp4", 2)
-run_tracker("video/gorilla.mp4", 3)
+# run_tracker("video/bear.mp4", 3)
+# run_tracker("video/camels.mp4", 2)
+# run_tracker("video/gorilla.mp4", 3)
+# run_tracker("video/lions.mp4", 2)
+run_tracker("video/tiger.mp4", 1)
