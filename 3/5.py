@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def gaussian_kernel(size, sigma):
-    """Создает ядро Гаусса заданного размера и отклонения."""
     k = size // 2
     kernel = np.zeros((size, size), dtype=np.float32)
 
@@ -12,18 +11,15 @@ def gaussian_kernel(size, sigma):
             x, y = i - k, j - k
             kernel[i, j] = np.exp(-(x**2 + y**2) / (2 * sigma**2))
     
-    # Нормировка (сумма всех элементов = 1)
     kernel /= np.sum(kernel)
     return kernel
 
 def apply_gaussian_filter(image, size, sigma):
-    """Применяет Гауссов фильтр вручную."""
     kernel = gaussian_kernel(size, sigma)
     k = size // 2
     h, w = image.shape
     new_img = np.zeros_like(image, dtype=np.float32)
 
-    # Свертка вручную
     for i in range(k, h - k):
         for j in range(k, w - k):
             region = image[i - k:i + k + 1, j - k:j + k + 1]
@@ -31,19 +27,14 @@ def apply_gaussian_filter(image, size, sigma):
     
     return np.uint8(new_img)
 
-# ====== Проверка на изображении ======
 img = cv2.imread('img/1.jpg', cv2.IMREAD_GRAYSCALE)
 
-# Уменьшаем для скорости
 img_small = cv2.resize(img, (200, 200))
 
-# Твоя реализация
 res3 = apply_gaussian_filter(img_small, size=11, sigma=3.0)
 
-# OpenCV GaussianBlur для сравнения
 cv_result = cv2.GaussianBlur(img_small, (11, 11), 3.0)
 
-# ====== Отображаем ======
 plt.figure(figsize=(10, 5))
 plt.subplot(1, 2, 1)
 plt.imshow(res3, cmap='gray')
